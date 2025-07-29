@@ -1,135 +1,213 @@
-# Turborepo starter
+# Belkit
 
-This Turborepo starter is maintained by the Turborepo core team.
+**Belkit** is a modern monorepo boilerplate designed to help you **launch your own reusable React component libraries** with ease. Whether you're building a design system or a set of utility packages, Belkit provides a scalable foundation with **pnpm workspaces**, **TypeScript**, **Tsup**, **Turborepo**, and **Storybook**.
 
-## Using this example
+Use Belkit as your starting point for rapidly building, documenting, and publishing your own open-source (or private) packages — all under your namespace.
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
-```
+## ✨ Features
 
-## What's inside?
+- 🧱 Monorepo structure powered by `pnpm workspaces` & `Turborepo`
+- ⚡️ Zero-config bundling with `tsup`
+- 🧪 Built-in `Vitest` support for unit testing
+- 📦 Publishing-ready packages under your own scope (`@your-scope/your-package`)
+- 📚 Docs with `Next.js` + `Storybook`
+- 🔥 Easily replace `shadcn/ui` or `tailwind` with your own design system
 
-This Turborepo includes the following packages/apps:
+---
+This guide explains how to:
 
-### Apps and Packages
+- Resolve "Cannot find module 'react'" errors.
+- Configure TypeScript properly.
+- Share dependencies like `react` across all packages using `pnpm` workspaces.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+## 📁 Folder Structure (Simplified)
 
 ```
-cd my-turborepo
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
+your-monorepo/
+├── apps/
+│   └── docs/
+├── packages/
+│   └── image/
+│       ├── index.tsx
+│       └── package.json
+├── tsconfig.json
+└── pnpm-workspace.yaml
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+````
+
+---
+
+## ✅ Step-by-Step Setup
+
+### 1. Configure `pnpm-workspace.yaml`
+
+Create a file called `pnpm-workspace.yaml` at the root of your monorepo:
+
+```yaml
+packages:
+  - "apps/*"
+  - "packages/*"
+````
+
+---
+
+### 2. Install React Globally at the Workspace Level
+
+Run the following **in the root** of your monorepo:
+
+```bash
+pnpm add react react-dom -w
+pnpm add -D @types/react @types/react-dom -w
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+This installs `react` and its type declarations at the workspace level, making them available to all packages.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+---
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+### 3. Add `peerDependencies` to Your Package
 
-### Develop
+In `packages/image/package.json`, define `react` and `react-dom` as peer dependencies:
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+```json
+{
+  "name": "@belkit/image",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+This tells consumers of the package to provide their own React.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+---
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+### 4. Set Up TypeScript
 
-### Remote Caching
+#### At the Monorepo Root (`tsconfig.json`)
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```json
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "exclude": ["node_modules", "dist"]
+}
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+#### In the Package (`packages/image/tsconfig.json`)
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+```json
+{
+  "extends": "../../tsconfig.json",
+  "include": ["./**/*.ts", "./**/*.tsx"]
+}
 ```
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+### 5. Link Your Package Locally
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+If you're trying to consume `@belkit/image` in another app like `apps/docs`, make sure it's linked locally and recognized as a dependency.
+
+In `apps/docs/package.json`:
+
+```json
+{
+  "dependencies": {
+    "@belkit/image": "workspace:*"
+  }
+}
+```
+
+Then install:
+
+```bash
+pnpm install
+```
+
+---
+
+### 6. Verify React Is Recognized
+
+If you still see TypeScript errors like:
+
+```
+Cannot find module 'react' or its corresponding type declarations.ts(2307)
+```
+
+Make sure:
+
+* `react` and `@types/react` exist in the monorepo root `node_modules`.
+* You are **not** trying to run the component package standalone (i.e., without a host app).
+* Your IDE (e.g. VSCode) has correctly picked up the root `tsconfig.json`.
+
+---
+
+## 🛠 Build Tools (Optional)
+
+If using `tsup` or similar:
+
+### Install it:
+
+```bash
+pnpm add -D tsup
+```
+
+### Add build script in `packages/image/package.json`:
+
+```json
+"scripts": {
+  "build": "tsup index.tsx --format esm,cjs --dts"
+}
+```
+
+---
+
+## 🧪 Test Locally
+
+From the root of your monorepo:
+
+```bash
+pnpm install
+pnpm build -r
+```
+
+Then try importing `@belkit/image` into your app.
+
+---
+
+## 💡 Troubleshooting
+
+### React still not found?
+
+* Make sure you've **not** installed `react` directly inside `packages/image/node_modules`.
+* Re-run `pnpm install` after editing dependencies.
+* Restart your IDE.
+
+---
+
+## 📌 Tips
+
+* Use `workspace:*` in consumers (`apps/docs`) to reference local packages.
+* Avoid placing `react` in `dependencies` inside shared packages to prevent version conflicts.
+
+---
+
+
