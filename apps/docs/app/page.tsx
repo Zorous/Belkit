@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-         <SmartImage src="/test.jpg" alt="A test image" />
+         <SmartImage src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A test image" />
 
         <ThemeImage
           className={styles.logo}
@@ -36,7 +36,7 @@ export default function Home() {
         />
         <ol>
           <li>
-            Get started by editing <code>apps/docs/app/page.tsx</code>
+            Get startedd by editing <code>apps/docs/app/page.tsx</code>
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
