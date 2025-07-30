@@ -23,7 +23,14 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-         <SmartImage src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="A test image" />
+        <SmartImage
+          src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+          alt="User Profile"
+          fallback="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+          isDownloadable={true}
+          expandOnClick={true}
+          className="w-64 h-64 object-cover"
+        />
 
         <ThemeImage
           className={styles.logo}
