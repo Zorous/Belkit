@@ -1,0 +1,100 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.smartImage {
+  cursor: pointer;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay takes whole screen and centers the modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+/* Modal content is responsive and doesn't exceed viewport */
+.modalContent {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  padding:8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  animation: fadeIn 0.4s ease-out;
+
+}
+
+/* The modal image adapts to screen size */
+.modalImage {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+/* Download button stays at top-right inside modal */
+.downloadBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease-in-out;
+  z-index: 1;
+}
+
+.downloadBtn:hover {
+  background: white;
+}
+
+.downloadIcon {
+  width: 24px;
+  height: 24px;
+  color: #333;
+  fill:#333;
+  transition: color 0.2s ease-in-out;
+}
+
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 6px 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  z-index: 10000;
+}
+
+.closeBtn:hover {
+  background: white;
+}
