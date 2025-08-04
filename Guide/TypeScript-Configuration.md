@@ -1,5 +1,4 @@
 
-````md
 ## TypeScript Configuration for Tailwind CSS in Monorepo
 
 To properly support Tailwind CSS v4 types (which use ESM modules) in a monorepo setup with TypeScript, you need to adjust the `moduleResolution` setting in your `tsconfig.json` files.

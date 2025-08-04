@@ -6,7 +6,7 @@
     "target": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "@belkit/*": ["packages/*/src"]
+      "@belkit/*": ["packages/*"]
     },
     "jsx": "react-jsx",
     "esModuleInterop": true,
