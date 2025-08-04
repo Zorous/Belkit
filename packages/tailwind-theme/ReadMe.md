@@ -1,4 +1,3 @@
-````md
 
 ##📦 tailwind-theme Package – Purpose and Usage
 The tailwind-theme package is a shared configuration module in a monorepo. Its main goal is to:
