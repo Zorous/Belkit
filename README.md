@@ -1,6 +1,6 @@
-# Belkit
+# Belkit Boilerplate
 
-**Belkit** is a modern monorepo boilerplate designed to help you **launch your own reusable React component libraries** with ease. Whether you're building a design system or a set of utility packages, Belkit provides a scalable foundation with **pnpm workspaces**, **TypeScript**, **Tsup**, **Turborepo**, and **Storybook**.
+**Belkit Boilerplate** is a modern monorepo boilerplate designed to help you **launch your own reusable React component libraries** with ease. Whether you're building a design system or a set of utility packages, Belkit provides a scalable foundation with **pnpm workspaces**, **TypeScript**, **Tsup**, **Turborepo**, and **Storybook**.
 
 Use Belkit as your starting point for rapidly building, documenting, and publishing your own open-source (or private) packages — all under your namespace.
 
