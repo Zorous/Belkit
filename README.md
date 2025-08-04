@@ -1,213 +1,158 @@
 # Belkit
 
-**Belkit** is a modern monorepo boilerplate designed to help you **launch your own reusable React component libraries** with ease. Whether you're building a design system or a set of utility packages, Belkit provides a scalable foundation with **pnpm workspaces**, **TypeScript**, **Tsup**, **Turborepo**, and **Storybook**.
+**Belkit** is a modern, scalable monorepo architecture for building and maintaining a reusable React UI component library and supporting utilities. It provides a robust and production-ready setup to design your own **design system**, **theme package**, and multiple **modular components**, all under a single workspace.
 
-Use Belkit as your starting point for rapidly building, documenting, and publishing your own open-source (or private) packages — all under your namespace.
-
----
-
-## ✨ Features
-
-- 🧱 Monorepo structure powered by `pnpm workspaces` & `Turborepo`
-- ⚡️ Zero-config bundling with `tsup`
-- 🧪 Built-in `Vitest` support for unit testing
-- 📦 Publishing-ready packages under your own scope (`@your-scope/your-package`)
-- 📚 Docs with `Next.js` + `Storybook`
-- 🔥 Easily replace `shadcn/ui` or `tailwind` with your own design system
-
----
-This guide explains how to:
-
-- Resolve "Cannot find module 'react'" errors.
-- Configure TypeScript properly.
-- Share dependencies like `react` across all packages using `pnpm` workspaces.
+This repo is meant to be the **source of truth for the `@belkit/*` packages**, used across multiple apps or boilerplates (like [`belkit-boilerplate`](https://github.com/your-org/belkit/tree/belkit-boilerplate)).
 
 ---
 
-## 📁 Folder Structure (Simplified)
+## 🧠 What’s in This Monorepo?
+
+Belkit includes:
+
+- 🧱 Reusable UI components (`@belkit/button`, `@belkit/image`, etc.)
+- 🎨 Shared Tailwind configuration (`@belkit/tailwind-theme`)
+- ⚙️ Utility packages (optional future expansion)
+- 📦 Build-ready packages powered by `tsup`
+- 📚 Documentation-ready with `Storybook` or `Next.js`
+- 🧪 Testable with `Vitest`
+
+---
+
+## 🔍 Why Use This?
+
+This monorepo is designed to:
+
+- Provide a **centralized UI library** (`@belkit/ui`, `@belkit/button`, etc.)
+- Export a **central Tailwind config** you can reuse across apps
+- Support **local development** using `pnpm` and `Turborepo`
+- Enable easy publishing of scoped packages (`@belkit/*`)
+- Be consumed by other projects like `belkit-boilerplate`
+
+---
+
+## 🗂 Folder Structure (Simplified)
 
 ```
 
-your-monorepo/
+belkit/
 ├── apps/
-│   └── docs/
+│   └── docs/            → (Optional Storybook or Next.js docs site)
 ├── packages/
-│   └── image/
-│       ├── index.tsx
-│       └── package.json
+│   ├── belkit/          → Core component exports
+│   ├── button/          → Example standalone component
+│   ├── tailwind-theme/  → Centralized Tailwind config
+│   └── ...              → Additional utilities
 ├── tsconfig.json
-└── pnpm-workspace.yaml
+├── pnpm-workspace.yaml
+└── turbo.json
 
 ````
 
 ---
 
-## ✅ Step-by-Step Setup
+## 📦 Usage in External Projects
 
-### 1. Configure `pnpm-workspace.yaml`
+You can install and use any of these packages via `workspace:*` if you’re working in a larger monorepo, or publish them via npm for wider consumption.
 
-Create a file called `pnpm-workspace.yaml` at the root of your monorepo:
+Example:
 
-```yaml
-packages:
-  - "apps/*"
-  - "packages/*"
+```bash
+pnpm add @belkit/button@workspace:* --filter=apps/web
 ````
 
----
+Then import it:
 
-### 2. Install React Globally at the Workspace Level
-
-Run the following **in the root** of your monorepo:
-
-```bash
-pnpm add react react-dom -w
-pnpm add -D @types/react @types/react-dom -w
+```tsx
+import { Button } from "@belkit/button";
 ```
 
-This installs `react` and its type declarations at the workspace level, making them available to all packages.
+You can also reuse the shared Tailwind config:
 
----
+```ts
+// tailwind.config.ts in your app
+import tailwindThemeConfig from "@belkit/tailwind-theme/tailwind.config";
 
-### 3. Add `peerDependencies` to Your Package
-
-In `packages/image/package.json`, define `react` and `react-dom` as peer dependencies:
-
-```json
-{
-  "name": "@belkit/image",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  }
-}
-```
-
-This tells consumers of the package to provide their own React.
-
----
-
-### 4. Set Up TypeScript
-
-#### At the Monorepo Root (`tsconfig.json`)
-
-```json
-{
-  "compilerOptions": {
-    "module": "ESNext",
-    "target": "ESNext",
-    "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./node_modules/@types"]
-  },
-  "exclude": ["node_modules", "dist"]
-}
-```
-
-#### In the Package (`packages/image/tsconfig.json`)
-
-```json
-{
-  "extends": "../../tsconfig.json",
-  "include": ["./**/*.ts", "./**/*.tsx"]
-}
+export default {
+  ...tailwindThemeConfig,
+  content: ["./src/**/*.{ts,tsx}"],
+};
 ```
 
 ---
 
-### 5. Link Your Package Locally
+## 🧰 Tech Stack
 
-If you're trying to consume `@belkit/image` in another app like `apps/docs`, make sure it's linked locally and recognized as a dependency.
+* **Bundler**: [`tsup`](https://tsup.egoist.dev/)
+* **Monorepo Manager**: `pnpm workspaces` + [`Turborepo`](https://turbo.build/repo)
+* **Styling**: [`tailwindcss`](https://tailwindcss.com/)
+* **UI Components**: Built on `React`, optionally using [`shadcn/ui`](https://ui.shadcn.dev/)
+* **Testing**: [`Vitest`](https://vitest.dev/)
+* **Docs**: [`Storybook`](https://storybook.js.org/) or `Next.js`
 
-In `apps/docs/package.json`:
+---
 
-```json
-{
-  "dependencies": {
-    "@belkit/image": "workspace:*"
-  }
-}
-```
+## 🧪 Developing Locally
 
-Then install:
+1. **Install deps**:
 
 ```bash
 pnpm install
 ```
 
----
-
-### 6. Verify React Is Recognized
-
-If you still see TypeScript errors like:
-
-```
-Cannot find module 'react' or its corresponding type declarations.ts(2307)
-```
-
-Make sure:
-
-* `react` and `@types/react` exist in the monorepo root `node_modules`.
-* You are **not** trying to run the component package standalone (i.e., without a host app).
-* Your IDE (e.g. VSCode) has correctly picked up the root `tsconfig.json`.
-
----
-
-## 🛠 Build Tools (Optional)
-
-If using `tsup` or similar:
-
-### Install it:
+2. **Build all packages**:
 
 ```bash
-pnpm add -D tsup
-```
-
-### Add build script in `packages/image/package.json`:
-
-```json
-"scripts": {
-  "build": "tsup index.tsx --format esm,cjs --dts"
-}
-```
-
----
-
-## 🧪 Test Locally
-
-From the root of your monorepo:
-
-```bash
-pnpm install
 pnpm build -r
 ```
 
-Then try importing `@belkit/image` into your app.
+3. **Run storybook/docs if needed**:
+
+```bash
+pnpm dev --filter=apps/docs
+```
 
 ---
 
-## 💡 Troubleshooting
+## 📤 Publishing
 
-### React still not found?
-
-* Make sure you've **not** installed `react` directly inside `packages/image/node_modules`.
-* Re-run `pnpm install` after editing dependencies.
-* Restart your IDE.
+Each package can be published to npm using `pnpm publish --filter @belkit/your-package`.
 
 ---
 
-## 📌 Tips
+## 📚 For Boilerplate Users
 
-* Use `workspace:*` in consumers (`apps/docs`) to reference local packages.
-* Avoid placing `react` in `dependencies` inside shared packages to prevent version conflicts.
+If you're looking for a ready-to-use starter app with this setup (rather than the source of the component library), check out the [`belkit-boilerplate`](https://github.com/your-org/belkit/tree/belkit-boilerplate) branch instead.
 
 ---
 
+## 🧩 Extend It
 
+You can add:
+
+* `@belkit/forms` – for form components
+* `@belkit/theme` – for design tokens
+* `@belkit/icons` – for icon system
+* And more...
+
+---
+
+## 🧠 Tips
+
+* Always use `workspace:*` to link local packages
+* Don't install `react` in component packages; use `peerDependencies`
+* Keep shared Tailwind configs in `@belkit/tailwind-theme`
+* Use isolated `tsconfig.json` files per package extending from the root config
+
+---
+
+## License
+
+MIT © Belkit Authors
+
+```
+
+---
+
+Would you like me to generate a matching `README.md` for the `belkit-boilerplate` branch as well?
+```
