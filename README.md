@@ -148,11 +148,4 @@ You can add:
 
 ## License
 
-MIT © Belkit Authors
-
-```
-
----
-
-Would you like me to generate a matching `README.md` for the `belkit-boilerplate` branch as well?
-```
+MIT © Belkit
