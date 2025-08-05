@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./SmartImage.module.css";
-import { Download } from "lucide-react";
+import { Download, X } from "lucide-react";
 import clsx from "clsx";
 
 const sizeMap = {
@@ -63,7 +63,8 @@ export function SmartImage({
               className={styles.closeBtn}
               onClick={() => setShowModal(false)}
             >
-              x
+              
+              <X width={24} height={24} />
             </button>
 
             {/* Modal image */}

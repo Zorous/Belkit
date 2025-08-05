@@ -58,11 +58,13 @@
   right: 16px;
   background: rgba(255, 255, 255, 0.85);
   padding: 8px;
+  fill:#333;
+  color: #333;
   border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease-in-out;
+  transition: "background" 0.2s ease-in-out;
   z-index: 1;
 }
 
@@ -81,18 +83,19 @@
 
 .closeBtn {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 16px;
+  left: 16px;
   background: rgba(255, 255, 255, 0.7);
-  padding: 6px 10px;
-  font-size: 20px;
-  font-weight: bold;
+  padding: 6px;
   color: #333;
   border: none;
   border-radius: 9999px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background 0.2s ease-in-out;
-  z-index: 10000;
+  z-index: 1;
 }
 
 .closeBtn:hover {

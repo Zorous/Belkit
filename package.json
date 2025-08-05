@@ -1,38 +1,22 @@
 {
   "name": "belkit",
+  "version": "1.9.4",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "license": "MIT",
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
-    "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.1",
-    "@types/tailwindcss": "^3.1.0",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "postcss-nesting": "^13.0.2",
-    "prettier": "^3.6.2",
-    "tailwindcss": "^4.1.11",
-    "turbo": "^2.5.5",
-    "typescript": "5.8.3"
+    "@belkit/eslint-config": "workspace:*",
+    "@belkit/typescript-config": "workspace:*",
+    "prettier": "^3.3.3",
+    "turbo": "^2.3.3"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@9.15.1",
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.534.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
   }
 }

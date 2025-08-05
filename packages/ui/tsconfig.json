@@ -1,8 +1,13 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@belkit/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "rootDir": "src"
+    //"outDir": "dist"
+    "baseUrl": ".",
+    "paths": {
+      "@ui/*": ["./src/*"],
+      "@ui/components/ui*": ["./src/components/ui/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
 }
